@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { 
   FileUp, Loader2, User, Briefcase, Save, Download, ChevronLeft 
 } from "lucide-react";
@@ -16,10 +16,29 @@ import {
   TabsList, 
   TabsTrigger 
 } from "@/components/ui/tabs";
-import { showError } from "@/utils/toast";
 
 export function ContractReviewPage(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const handleFileUpload = () => {
+    // Trigger the hidden file input
+    fileInputRef.current?.click();
+  };
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    
+    setIsLoading(true);
+    console.log("Selected file:", files[0]);
+    
+    // Simulate processing time
+    setTimeout(() => {
+      setIsLoading(false);
+      // In a real app, you would process the file here
+    }, 1500);
+  };
   
   return (
     <div className="container mx-auto p-4">
@@ -42,8 +61,11 @@ export function ContractReviewPage(): JSX.Element {
               <TabsTrigger value="results">分析结果</TabsTrigger>
             </TabsList>
             <TabsContent value="upload">
-              <div className="flex items-center justify-center h-64 border-2 border-dashed rounded-lg">
-                <Button disabled={isLoading}>
+              <div className="flex flex-col items-center justify-center h-64 border-2 border-dashed rounded-lg p-4">
+                <Button 
+                  onClick={handleFileUpload}
+                  disabled={isLoading}
+                >
                   {isLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
@@ -51,6 +73,18 @@ export function ContractReviewPage(): JSX.Element {
                   )}
                   选择合同文件
                 </Button>
+                <p className="mt-2 text-sm text-gray-500">
+                  支持 PDF, DOC, DOCX 格式
+                </p>
+                
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept=".pdf,.doc,.docx"
+                  className="hidden"
+                />
               </div>
             </TabsContent>
             <TabsContent value="results">
