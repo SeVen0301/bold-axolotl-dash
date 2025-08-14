@@ -1,6 +1,6 @@
 // ... existing component code ...
 
-// Change from default export to named export
-export function ContractReviewPage() {
+// Add JSX.Element return type to the function
+export function ContractReviewPage(): JSX.Element {
   // ... component implementation ...
 }
