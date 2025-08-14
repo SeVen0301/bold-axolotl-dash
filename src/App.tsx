@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Index from './pages/Index';
-import ContractReviewPage from './pages/ContractReviewPage';
+import { ContractReviewPage } from './pages/ContractReviewPage'; // Updated import
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App; // Default export
+export default App;
